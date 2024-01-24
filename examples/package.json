@@ -1,0 +1,9 @@
+{
+  "name": "my-awesome-package",
+  "version": "1.0.0",
+  "author": "Your Name <email@example.com>",
+  "keywords": ["example", "package"],
+  "scripts": {
+    "test": "echo test"
+  }
+}
