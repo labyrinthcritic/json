@@ -91,8 +91,14 @@ bool = f <$> (units "false" <|> units "true") where
     "true" -> Bool True
 
 array :: Parser Char Value
-array = Array <$> (ws *> unit '[' *> ws *> (separated (ws *> unit ',' <* ws) value) <* ws <* unit ']' <* ws)
+array = Array <$> (left *> items <* right)
+  where left  = ws *> unit '[' *> ws
+        items = separated (ws *> unit ',' <* ws) value
+        right = ws <* unit ']' <* ws
 
 object :: Parser Char Value
-object = Object <$> (ws *> unit '{' *> ws *> (separated (ws *> unit ',' <* ws) member) <* ws <* unit '}' <* ws)
-  where member = (,) <$> (string <* ws <* unit ':' <* ws) <*> value
+object = Object <$> (left *> members <* right)
+  where members = separated (ws *> unit ',' <* ws) member
+        member  = (,) <$> (string <* ws <* unit ':' <* ws) <*> value
+        left    = ws *> unit '{' *> ws
+        right   = ws <* unit '}' <* ws
